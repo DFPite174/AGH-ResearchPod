@@ -41,6 +41,7 @@ def info():
     table.add_row("Deconstruction Engine", "Active", "Formula LaTeX extraction, implicit friction audit, license screening")
     table.add_row("Replication Sandbox", "Active", "Isolated Docker/gVisor environment with LLM self-healing")
     table.add_row("Benchmark 001", "Verified", "Zheng Zhenlong et al. (2025) Convertible Bond Pricing L/S Strategy")
+    table.add_row("Benchmark 002", "Verified", "Zheng Zhenlong & Lin Hai (2004a) CB Pricing & Underpricing Discovery")
     
     console.print(table)
 
@@ -50,6 +51,13 @@ def benchmark_001():
     """Execute end-to-end replication of Zheng Zhenlong et al. (2025) Convertible Bond Paper."""
     from benchmarks.benchmark_001_cb_pricing.run_replication import run_benchmark_001
     run_benchmark_001()
+
+
+@main.command(name="run-benchmark-002")
+def benchmark_002():
+    """Execute end-to-end replication of Zheng Zhenlong & Lin Hai (2004a) Convertible Bond Paper."""
+    from benchmarks.benchmark_002_zheng_lin_2004.run_replication import run_benchmark_002_replication
+    run_benchmark_002_replication()
 
 
 @main.command()

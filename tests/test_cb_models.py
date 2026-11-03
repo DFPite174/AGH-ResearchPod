@@ -137,3 +137,13 @@ def test_cross_sectional_hedging_simulation():
     for m_name, m_metric in metrics.items():
         assert m_metric.annualized_volatility > 0.0
         assert m_metric.win_rate >= 0.0
+
+
+def test_benchmark_002_paper_replication():
+    """验证 Benchmark 002 郑振龙-林海 (2004a) 历史全样本低估结论"""
+    from benchmarks.benchmark_002_zheng_lin_2004.run_replication import get_paper_2004_benchmark_data
+    records = get_paper_2004_benchmark_data()
+    assert len(records) == 11
+    # 验证 11 只转债当时全条款模型价格均高于市场价格 (全部低估)
+    for r in records:
+        assert r.model4_full > r.market_price
