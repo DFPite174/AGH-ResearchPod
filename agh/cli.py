@@ -60,6 +60,13 @@ def benchmark_002():
     run_benchmark_002_replication()
 
 
+@main.command(name="run-benchmark-003")
+def benchmark_003():
+    """Execute Plan B NautilusTrader 1.231.0 institutional convertible bond execution & dual ledger audit."""
+    from benchmarks.benchmark_003_nautilus_execution.run_replication import run_benchmark
+    run_benchmark()
+
+
 @main.command()
 def scan():
     """Trigger tri-engine scan to discover and align latest quantitative research."""

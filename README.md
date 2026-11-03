@@ -93,9 +93,9 @@ flowchart TD
 * **方向仅支持现金多头 (Cash-only Long)**：由于 A 股市场融券做空券源受限，引擎原生不支持直接融券做空（Short-Selling）与衍生品对冲；
 * **规则契约门槛极高**：回测强依赖每一标的每日完整的 `rules.csv`（涨跌停价、停牌状态）。
 
-### 3. 最优协同落地架构（双轨制解决方案）
-* **轨一：学术与因子偏离度研究轨**：使用 Tushare 全量真实可转债数据计算五大模型理论价值，在截面五分位多空对冲框架下验证策略纯 Alpha 与模型精度；
-* **轨二：生产高保真执行回测轨**：将模型识别出的 Q1（深度低估组）可转债对应的 A 股正股组合，无缝接入 `ashare-nautilus-backtest-engine`，在严格 T+1 与涨跌停约束下执行真实的现金多头高保真回测。
+### 3. 最优协同落地架构（方案 B 原生落地）
+* **学术与因子偏离度研究层**：使用 Tushare 全量真实可转债数据计算五大模型理论价值，在截面五分位多空对冲框架下验证策略纯 Alpha 与模型精度；
+* **生产高保真执行回测层 (方案 B 已全线跑通)**：已在 `ashare-nautilus-backtest-engine` 中原生扩展 `ConvertibleBondInstrument` (1手=10张, 0.001元报价) 与 `ConvertibleBondFeeModel` (法定免征印花税, 佣金万一)，并在 Benchmark 003 中实现 NautilusTrader 1.231.0 订单级撮合与双账本 100% 审计级对账。
 
 ---
 
@@ -191,6 +191,9 @@ agh run-benchmark-001
 
 # 一键运行黄金基准 002 (郑振龙 2004 奠基论文历史全样本复现)
 agh run-benchmark-002
+
+# 一键运行黄金基准 003 (方案 B: NautilusTrader 1.231.0 机构级可转债真实撮合与双账本审计)
+agh run-benchmark-003
 ```
 
 ### 3. 运行自动化测试
