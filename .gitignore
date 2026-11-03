@@ -30,6 +30,7 @@ htmlcov/
 output/
 scratch/
 artifacts/
+data_cache/
 
 # OS generated
 .DS_Store

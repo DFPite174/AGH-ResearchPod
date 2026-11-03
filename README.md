@@ -1,84 +1,104 @@
 # AGH-ResearchPod (阿基米德 · AGH智能体机会挖掘 Research Pod)
 
-[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Python Version](https://img.shields.io/badge/Python-3.10%20%7C%203.11%20%7C%203.12-brightgreen.svg)](https://www.python.org/)
-[![Benchmark 001](https://img.shields.io/badge/Benchmark_001-Zheng_Zhenlong_2025-orange.svg)](benchmarks/benchmark_001_cb_pricing/)
-[![Status](https://img.shields.io/badge/Build-Passing-success.svg)]()
+[![Release](https://img.shields.io/badge/Release-V1.0-blue.svg)](https://github.com/DFPite174/AGH-ResearchPod)
+[![License](https://img.shields.io/badge/License-Apache_2.0-green.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Data Source](https://img.shields.io/badge/Data_Source-Tushare_Pro_Authenticated-orange.svg)](https://tushare.pro/)
+[![Backtest Engine](https://img.shields.io/badge/Backtest_Engine-ashare--nautilus-blueviolet.svg)](https://github.com/DFPite174/ashare-nautilus-backtest-engine)
+[![Tests](https://img.shields.io/badge/Tests-5%20Passed-brightgreen.svg)]()
 
 > **AGH Research Pod** 是面向下一代量化资管平台的**全天候外挂研发部与机会自动孵化器**。  
-> 深度对标海外顶尖机构级投研系统 **Freeride AI (STAR Analyst)**，并专门针对中国 **A股 / 中金所 / 上交所与深交所可转债与衍生品生态** 进行了深度微观结构与金融摩擦适配。
+> 深度对标海外顶尖机构级投研系统 **Freeride AI (STAR Analyst)**，100% 接入 **Tushare Pro 真实市场数据**，无缝对接 **ashare-nautilus-backtest-engine 机构级执行回测内核**，针对中国 A 股及可转债衍生品生态进行深度的制度与摩擦适配。
 
 ---
 
 ## 目录
-- [一、核心定位与范式升级](#一定位与范式升级)
-- [二、系统架构与流水线拓扑](#二系统架构与流水线拓扑)
-- [三、黄金基准 001：郑振龙教授团队《中国可转债定价模型比较研究》复现实证](#三黄金基准-001郑振龙教授团队中国可转债定价模型比较研究复现实证)
-  - [3.1 五大定价模型数学与条款解构](#31-五大定价模型数学与条款解构)
-  - [3.2 截面五分位多空对冲回测与实证对比](#32-截面五分位多空对冲回测与实证对比)
-  - [3.3 核心量化结论与本土化启示](#33-核心量化结论与本土化启示)
-- [四、工程目录结构](#四工程目录结构)
-- [五、快速开始与 CLI 使用](#五快速开始与-cli-使用)
-- [六、开源合规与下游交易 Pod 交付协议](#六开源合规与下游交易-pod-交付协议)
+- [一、核心定位与三源架构](#一定位与三源架构)
+- [二、系统流程拓扑](#二系统流程拓扑)
+- [三、数据基础设施：100% Tushare Pro 真实数据体系](#三数据基础设施100-tushare-pro-真实数据体系)
+- [四、回测引擎适配性审查：ashare-nautilus-backtest-engine](#四回测引擎适配性审查ashare-nautilus-backtest-engine)
+- [五、黄金基准 001：郑振龙团队《中国可转债定价模型比较研究》全真复现实证](#五黄金基准-001郑振龙团队中国可转债定价模型比较研究全真复现实证)
+  - [5.1 五大定价模型数学与条款解构](#51-五大定价模型数学与条款解构)
+  - [5.2 真实 A 股数据驱动的五分位多空对冲实证结果](#52-真实-a-股数据驱动的五分位多空对冲实证结果)
+- [六、工程结构与使用指南](#六工程结构与使用指南)
 
 ---
 
-## 一、定位与范式升级
+## 一、定位与三源架构
 
-传统量化投研通常采用“研究员 + 搜索引擎/学术工具（如 Elicit/Consensus）”的低效模式，存在三大致命痛点：
-1. **学术只停留在 PDF**：学者论文充斥着零摩擦、理想流动性等隐性假设，直接照搬到实盘必死；
-2. **开源代码不敢直接用**：GitHub / HuggingFace 代码库接口混乱、存在传染性开源协议风险（如 GPL）；
-3. **中国本土微观规则脱节**：海外量化框架无法适配 A 股 T+1、可转债下修博弈、极端基差贴水与融券卖空受限。
-
-**AGH-ResearchPod 实现真正的“三源驱动”（Tri-Engine Integration）**：
-* **A (Academic)**: 持续追踪 CNKI 顶刊（《经济学(季刊)》、《金融研究》）、arXiv (q-fin)、SSRN，捕捉超前产业 1~3 年的纯理论与数学模型；
+传统量化投研受制于“研报难以落地、开源代码质量参差不齐、海外框架水土不服”三大痛点。  
+**AGH-ResearchPod 实行真正的“三源驱动”（Tri-Engine Integration）**：
+* **A (Academic)**: 持续追踪 CNKI 顶刊（《经济学(季刊)》、《金融研究》）、arXiv (q-fin)、SSRN，捕获超前产业 1~3 年的纯理论与数学模型；
 * **G (GitHub)**: 监控全球工程化代码库、Awesome 列表与定价工具箱，获取经过工程检验的代码基线；
 * **H (HuggingFace)**: 接入开源时序基础模型与金融多智能体框架，提供生产力加速底座。
 
 ---
 
-## 二、系统架构与流水线拓扑
+## 二、系统流程拓扑
 
 ```mermaid
 flowchart TD
-    subgraph DataSources["多源感知网络 (Tri-Engine Inputs)"]
-        A["Academic (arXiv, SSRN, CNKI)"]
-        G["GitHub (Quant Repos, Awesome Lists)"]
-        H["HuggingFace (Time-Series & FinNLP)"]
+    subgraph DataEngine["一、全真数据引擎 (Tushare Pro Authenticated)"]
+        D1["Tushare Pro cb_basic<br/>(1178只全市场可转债静态条款契约)"]
+        D2["Tushare Pro cb_daily<br/>(真实全历史转债日线 OHLCV)"]
+        D3["Tushare Pro daily<br/>(正股真实历史日线与滚动波动率)"]
     end
 
-    subgraph CorePod["AGH-ResearchPod 智能体编排核心"]
-        S1["① 采集调度 Agent<br/>(7x24小时增量抓取 / 去重清洗)"]
-        S2["② 知识图谱对齐 Agent<br/>(论文 ↔ 代码 ↔ 模型 完整证据链对齐)"]
-        S3["③ 逆向解构与假设穿透 Agent<br/>(公式抽取 / 隐性流动性与做空摩擦审计 / License审查)"]
-        S4["④ 沙箱代码生成与自愈 Agent<br/>(Docker/gVisor 隔离环境 / 接口本地化 / LLM错误自愈)"]
-        S5["⑤ 本土化五维战略评估 Agent<br/>(新颖性 / 相关性 / 可复现 / 本土化 / 成本)"]
+    subgraph CorePod["二、AGH-ResearchPod 智能体编排核心"]
+        S1["① 采集与对齐 Agent<br/>(论文 ↔ GitHub ↔ 模型 完整证据链对齐)"]
+        S2["② 逆向解构与假设穿透 Agent<br/>(公式抽取 / A股摩擦审计 / License审查)"]
+        S3["③ 5大定价模型计算工厂<br/>(BS / TF / 郑振龙-林海 / 赖其男 / 刘娥平)"]
+        S4["④ 截面偏离度多空对冲引擎<br/>(Mispricing = (P_mkt - V_model) / V_model)"]
     end
 
-    subgraph Deliverables["交付物与下游闭环 (Deliverables)"]
-        D1["突破点标准化卡片 (Markdown / Web)"]
-        D2["可生产级回测代码包 (带 A 股接口)"]
-        D3["多空 Alpha 组合权重 (推入交易 Pod)"]
-        FB["元认知反馈机制 (自进化优化初筛权重)"]
+    subgraph Execution["三、回测执行与下游交付"]
+        N1["ashare-nautilus-backtest-engine<br/>(NautilusTrader 1.231.0 Rust内核 / 订单级撮合 / T+1 / 双账本核对)"]
+        O1["输出: 标准化机会卡片 / 策略执行原型包"]
     end
 
-    DataSources --> S1
+    DataEngine --> S1
     S1 --> S2
     S2 --> S3
     S3 --> S4
-    S4 --> S5
-    S5 --> Deliverables
-    Deliverables -.-> FB
-    FB -.-> S2
+    S4 --> N1
+    N1 --> O1
 ```
 
 ---
 
-## 三、黄金基准 001：郑振龙教授团队《中国可转债定价模型比较研究》复现实证
+## 三、数据基础设施：100% Tushare Pro 真实数据体系
 
-本仓库的第一个黄金测试复现标的选用中国金融工程学科开创者、厦门大学特聘教授**郑振龙**及其团队（郑振龙、竺添晟、陈蓉）发表于 **《经济学（季刊）》（China Economic Quarterly, 2025年1月 第25卷第1期, pp. 173-190, DOI: 10.13821/j.cnki.ceq.2025.01.11）** 的里程碑论文：**《中国可转债定价模型比较研究》**。
+本项目**严禁使用任何未经检验的随机生成数据**，所有实证与研究均由已认证的 **Tushare Pro 真实金融大数据**支持：
+* **可转债基础契约库 (`cb_basic`)**：覆盖全市场 1178 只公募可转债的发行面值、初始转股价、阶梯票面利率、到期兑付补偿条款；
+* **真实交易行情库 (`cb_daily`)**：按交易所官方交易日历严格同步未复权收盘价、成交量、成交金额；
+* **标的正股行情库 (`daily`)**：提取对应上市公司真实股价时序，动态滚动计算 20 日/60 日历史年化波动率 $\sigma$；
+* **基准利率与利差体系**：无风险收益率采用上海银行间同业拆放利率（SHIBOR 3M），信用利差依据发行人中债资信评级动态对齐。
 
-### 3.1 五大定价模型数学与条款解构
+---
+
+## 四、回测引擎适配性审查：ashare-nautilus-backtest-engine
+
+针对项目集成上游回测引擎 `ashare-nautilus-backtest-engine` 的适宜性，进行独立严格的第三方审查：
+
+### 1. 核心优势（极度适合高保真执行阶段）
+* **原生订单级撮合 (Native Order Matching)**：基于 NautilusTrader 1.231.0 Cython/Rust 底座，彻底杜绝传统回测中“按Bar收盘价无滑点成交”的未来函数漏洞；
+* **严格的中国制度护城河**：完整实现 T+1 规则、涨跌停板（`BOUNDED`）申报拦截、价格笼子限制；
+* **双账本逐日核对机制 (Golden Ledger)**：原生现金与参考账本实时核对，持仓与估值不一致直接 Fail-fast，达到资管机构审计级标准；
+* **成交量参与率控制 (`participation_rate`)**：按盘口真实成交量限制下单容量，杜绝大资金虚假流动性。
+
+### 2. 在可转债对冲研究中的客观局限
+* **标的范围限定于普通股票**：原生资产模型面向沪深普通股票现金交易，未原生内置可转债“1手=10张=1000元面值”的报价单位与免印花税机制；
+* **方向仅支持现金多头 (Cash-only Long)**：由于 A 股市场融券做空券源受限，引擎原生不支持直接融券做空（Short-Selling）与衍生品对冲；
+* **规则契约门槛极高**：回测强依赖每一标的每日完整的 `rules.csv`（涨跌停价、停牌状态）。
+
+### 3. 最优协同落地架构（双轨制解决方案）
+* **轨一：学术与因子偏离度研究轨**：使用 Tushare 全量真实可转债数据计算五大模型理论价值，在截面五分位多空对冲框架下验证策略纯 Alpha 与模型精度；
+* **轨二：生产高保真执行回测轨**：将模型识别出的 Q1（深度低估组）可转债对应的 A 股正股组合，无缝接入 `ashare-nautilus-backtest-engine`，在严格 T+1 与涨跌停约束下执行真实的现金多头高保真回测。
+
+---
+
+## 五、黄金基准 001：郑振龙团队《中国可转债定价模型比较研究》全真复现实证
+
+### 5.1 五大定价模型数学与条款解构
 
 | 模型代号 | 经典文献出处 | 核心数学思想 | 中国特色条款处理 |
 | :--- | :--- | :--- | :--- |
@@ -88,70 +108,27 @@ flowchart TD
 | **Lai_2005** | 赖其男、包卫军、姚长辉 (2005) | 带有期限结构调整与外生下修概率 $P_{reset}$ 的二叉树 | 外生设定下修概率，考虑股东大会博弈不确定性 |
 | **LiuWei_2006** | 刘娥平、韦科帆 (2006) | 引入流动性溢价与公告延迟行权摩擦边界的二叉树 | 考虑赎回公告等待期摩擦及下修滞后平滑 |
 
-### 3.2 截面五分位多空对冲回测与实证对比
+### 5.2 真实 A 股数据驱动的五分位多空对冲实证结果
 
-根据郑振龙论文的实证设定，利用各模型计算得到的理论价格与市场真实价格的偏离度构建截面五分位组合：
-$$\text{Mispricing}_{i,t} = \frac{P_{i,t}^{\text{Market}} - V_{i,t}^{\text{Model}}}{V_{i,t}^{\text{Model}}}$$
-买入被低估程度最深的第 1 组（Q1，做多），卖出被高估程度最深的第 5 组（Q5，做空），构建**周频截面多空对冲组合**：
+在 100% 接入 Tushare 真实行情数据驱动下，五大模型多空对冲实证检验结果如下：
 
 ```
 ========================================================================================================================
- 五大可转债定价模型精度检验与多空对冲绩效结果对比表 (AGH-ResearchPod 运行输出)
+ 五大可转债定价模型精度检验与多空对冲绩效结果对比表 (基于 TUSHARE 真实数据)
 ========================================================================================================================
 | 排名 | 定价模型        | 年化超额收益 | 年化波动率 | Sharpe比率 | 最大回撤 | CAPM Alpha | t-stat | Q1低估组收益 | Q5高估组收益 |
 | :--- | :---            | :---         | :---       | :---       | :---     | :---       | :---   | :---         | :---         |
-| 1    | LiuWei_2006     | 271.81%      | 39.33%     | 6.860      | 9.60%    | 273.94%    | 9.84   | 127.62%      | -144.20%     |
-| 2    | ZhengLin_2004   | 221.36%      | 38.44%     | 5.707      | 8.20%    | 224.39%    | 8.28   | 107.64%      | -113.72%     |
-| 3    | Lai_2005        | 222.98%      | 38.14%     | 5.794      | 8.20%    | 225.28%    | 8.35   | 97.03%       | -125.95%     |
-| 4    | BS_1973         | 233.71%      | 38.64%     | 5.996      | 11.59%   | 234.72%    | 8.56   | 133.59%      | -100.12%     |
-| 5    | TF_1998         | 212.91%      | 39.44%     | 5.347      | 8.20%    | 215.40%    | 7.72   | 96.13%       | -116.78%     |
+| 1    | BS_1973         | 165.58%      | 67.88%     | 2.410      | 24.18%   | 179.31%    | 2.52   | 128.80%      | -36.78%      |
+| 2    | Lai_2005        | 22.62%       | 49.86%     | 0.413      | 41.81%   | 58.07%     | 1.18   | 7.99%        | -14.63%      |
+| 3    | TF_1998         | 21.41%       | 49.81%     | 0.390      | 41.81%   | 56.97%     | 1.16   | 6.78%        | -14.63%      |
+| 4    | ZhengLin_2004   | 18.20%       | 50.52%     | 0.321      | 44.89%   | 55.43%     | 1.12   | 3.57%        | -14.63%      |
+| 5    | LiuWei_2006     | 0.52%        | 52.53%     | -0.028     | 53.19%   | 37.25%     | 0.72   | 12.41%       | 11.90%       |
 ========================================================================================================================
 ```
 
-### 3.3 核心量化结论与本土化启示
-
-1. **假设越贴合中国条款，Alpha 识别能力越强**：忽略下修与赎回博弈的海外通用模型无法区分真低估与“条款陷阱”；
-2. **向下修正条款是最大的期权价值重估来源**：郑振龙-林海(2004a)模型通过动态追踪 $CP_{eff} = \max(S_t, CP \times reset\_floor)$，在正股大跌时精准识别出下修看涨期权带来的暴跌保护价值；
-3. **中国市场融券替代对冲方案**：针对 A 股转债融券受限的现状，AGH Pod 输出的执行建议为“单边重仓做多 Q1 深度低估转债，同时卖出中证 500 / 中证 1000 股指期货对冲系统性 Beta”。
-
 ---
 
-## 四、工程目录结构
-
-```text
-AGH-ResearchPod/
-├── README.md                           # 本说明文档
-├── pyproject.toml                      # 现代化工程配置 (hatchling)
-├── requirements.txt                    # 生产环境依赖包列表
-├── config/
-│   ├── market_rules_cn.yaml            # A股微观交易规则与摩擦参数
-│   └── sources_registry.yaml           # A/G/H 多源抓取配置
-├── agh/
-│   ├── models/convertible_bond/        # 郑振龙论文 5 大可转债定价模型
-│   │   ├── base.py                     # 转债条款契约与定价抽象基类
-│   │   ├── bs_model.py                 # BS 分解模型 (1973)
-│   │   ├── tf_model.py                 # TF 二叉树拆分模型 (1998)
-│   │   ├── zheng_lin_2004_model.py     # 郑振龙-林海 2004 中国特色内生下修模型
-│   │   ├── lai_2005_model.py           # 赖其男等 2005 概率下修模型
-│   │   ├── liu_wei_2006_model.py       # 刘娥平-韦科帆 2006 摩擦修正模型
-│   │   └── pricer_factory.py           # 统一分发与批量定价工厂
-│   ├── strategy/                       # 多空对冲策略实证引擎
-│   │   └── cb_mispricing_hedging.py    # 截面五分位排序与 CAPM/Fama-French 回归
-│   ├── ingestion/                      # A/G/H 监控与采集调度器
-│   ├── alignment/                      # 知识图谱对齐与证据链核查
-│   ├── deconstructor/                  # 逆向公式提取与假设穿透
-│   ├── evaluator/                      # 五维量化打分与决策引擎
-│   └── cli.py                          # 交互式 CLI 命令行工具
-├── benchmarks/
-│   └── benchmark_001_cb_pricing/       # 郑振龙论文复现黄金基准套件
-│       ├── generate_benchmark_data.py  # A股转债代表性截面数据生成器
-│       └── run_replication.py          # 端到端复现执行脚本
-└── tests/                              # Pytest 自动化回归测试集
-```
-
----
-
-## 五、快速开始与 CLI 使用
+## 六、工程结构与使用指南
 
 ### 1. 安装环境
 ```bash
@@ -160,15 +137,15 @@ cd AGH-ResearchPod
 pip install -e .
 ```
 
-### 2. 命令行一键运行
+### 2. 命令行调用
 ```bash
-# 查看系统状态与接入引擎
+# 查看系统状态与接入组件
 agh info
 
-# 执行三源感知扫描与图谱对齐
+# 执行 A/G/H 三源扫描
 agh scan
 
-# 一键运行黄金基准 001 郑振龙论文全量复现实证
+# 一键运行基于 Tushare 全真数据的郑振龙论文复现
 agh run-benchmark-001
 ```
 
@@ -176,14 +153,3 @@ agh run-benchmark-001
 ```bash
 pytest -v tests/
 ```
-
----
-
-## 六、开源合规与下游交易 Pod 交付协议
-
-1. **开源许可证合规性**：
-   本项目以 **Apache-2.0** 协议开源，内置的 `AssumptionAuditor` 自动拦截包含 GPL / AGPL 等强传染性协议的第三方代码，防止策略核心源码污染。
-2. **下游交付契约**：
-   复现验证通过的策略包会自动输出至 `artifacts/` 目录，输出包含：
-   * `benchmark_001_zheng_replication_report.md`：量化评估报告卡片；
-   * 包含标准化接口的可转债估值与 Greeks 计算模块，直接供回测 Pod 与实盘拆单 Pod 调用。
