@@ -1,0 +1,31 @@
+# Tri-Engine Ingestion Sources Registry (A + G + H)
+sources:
+  academic:
+    - name: "CNKI_Economics_Finance"
+      category: "Journal"
+      journals: ["经济学(季刊)", "金融研究", "管理科学学报", "经济研究"]
+      frequency: "weekly"
+    - name: "arXiv_q_fin"
+      category: "Preprint"
+      subcategories: ["q-fin.PR", "q-fin.PM", "q-fin.TR", "q-fin.RM"]
+      frequency: "daily"
+    - name: "SSRN_Finance"
+      category: "WorkingPaper"
+      frequency: "weekly"
+
+  github:
+    - name: "quant_trending"
+      topics: ["quantitative-finance", "convertible-bonds", "option-pricing", "derivatives"]
+      frequency: "daily"
+      min_stars: 20
+    - name: "awesome_curated"
+      repos: ["wilsonfreitas/awesome-quant", "georgezouq/awesome-ai-in-finance"]
+      frequency: "weekly"
+
+  huggingface:
+    - name: "hf_time_series"
+      tags: ["time-series", "financial-nlp", "tabular"]
+      frequency: "daily"
+    - name: "hf_quant_agents"
+      tags: ["financial-agent", "trading-agent"]
+      frequency: "weekly"

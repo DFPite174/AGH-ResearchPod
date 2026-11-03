@@ -1,0 +1,26 @@
+# A-Share & China Derivatives Market Rules and Microstructure Parameters
+market:
+  name: "China A-Share & SSE/SZSE Convertible Bond Market"
+  currency: "CNY"
+  trading_days_per_year: 242
+
+convertible_bond:
+  par_value: 100.0                       # 票面价值 100 元
+  tick_size: 0.001                       # 报价单位 0.001 元
+  price_limit:
+    day_1_max_up: 0.573                  # 上市首日最高涨幅 (+57.3%)
+    normal_trading_limit: null           # 目前实行匹配成交机制，临停规则 (20% / 30%)
+  trading_fee:
+    brokerage_commission: 0.0001         # 券商佣金 万一
+    transfer_fee: 0.00001                # 过户费
+    stamp_duty: 0.0                      # 印花税 (可转债交易免印花税)
+    slippage_bps: 2.0                    # 模拟滑点 (2 bps)
+
+underlying_equity:
+  t_plus_one: true                       # T+1 交易制度
+  price_limit_ratio: 0.10                # 主板 10% 涨跌停限制
+  short_selling_restricted: true         # 融券困难 / 券源受限
+
+interest_rate_benchmark:
+  risk_free_rate_type: "SHIBOR_3M"       # 无风险利率对齐 3个月 SHIBOR
+  credit_spread_default: 0.018           # AA 级企业债平均信用利差 (180 bps)
