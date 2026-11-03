@@ -15,7 +15,7 @@ import pandas as pd
 import tushare as ts
 
 DEFAULT_TOKEN_FILE = Path(r"C:\Users\SKT80\Downloads\Tushare api.txt")
-DEFAULT_LAKE_PATH = Path(r"C:\Users\SKT80\.gemini\antigravity\scratch\data_lake\quant_lake.duckdb")
+DEFAULT_LAKE_PATH = Path(r"C:\Users\SKT80\Downloads\data_lake\quant_lake.duckdb")
 
 
 class DuckDBLakeBuilder:
